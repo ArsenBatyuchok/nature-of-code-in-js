@@ -1,19 +1,41 @@
 let socket;
-let address = 'http://localhost:3000'
+let address = 'http://localhost:3000';
+let w;
+
+class Walker {
+  constructor() {
+    this.x = width/2;
+    this.y = height/2;
+  }
+
+  display() {
+    stroke(255, 204, 0);
+    strokeWeight(2);
+    point(this.x, this.y);
+  }
+  step() {
+    const stepX = random(-1, 1);
+    const stepY = random(-1, 1);
+
+    this.x += stepX;
+    this.y += stepY;
+  }
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
+
+  w = new Walker();
 
   socket = io();
   socket.on('mouse', incomingMouse);
 }
 
 function draw() {
-  // background(0);
-  // translate(width/2, height/2);
-  // rotate(frameCount/10%TWO_PI)
-  // circle(20, 0, 40);
+  w.step();
+  w.display();
+  translate(width/2, height/2);
 }
 
 function incomingMouse(data) {
