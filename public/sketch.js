@@ -17,8 +17,8 @@ class Walker {
     const stepX = random(-1, 1);
     const stepY = random(-1, 1);
 
-    this.x += stepX;
-    this.y += stepY;
+    this.x += stepX + randomGaussian(0, 2);
+    this.y += stepY + randomGaussian(0, 2);
   }
 }
 
