@@ -6,6 +6,7 @@ class Walker {
   constructor() {
     this.x = width/2;
     this.y = height/2;
+    this.noiseOff = 0;
   }
 
   display() {
@@ -14,22 +15,12 @@ class Walker {
     point(this.x, this.y);
   }
 
-  getRandomStepSize() {
-    const r1 = random(0, 10);
-    const probability = r1 * r1;
-    const r2 = random(0, 10);
-
-    if (r2 < probability) {
-      return r2;
-    }
-
-    return this.getRandomStepSize();
-  }
-
   step() {
-    const stepSize = this.getRandomStepSize();
+    const stepSize = map(noise(this.noiseOff), 0, 1, 0, 8);
     const stepX = random(-stepSize, stepSize);
     const stepY = random(-stepSize, stepSize);
+
+    this.noiseOff += 0.01;
 
     this.x += stepX;
     this.y += stepY;
