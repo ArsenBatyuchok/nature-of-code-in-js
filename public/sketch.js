@@ -13,12 +13,26 @@ class Walker {
     strokeWeight(2);
     point(this.x, this.y);
   }
-  step() {
-    const stepX = random(-1, 1);
-    const stepY = random(-1, 1);
 
-    this.x += stepX + randomGaussian(0, 5);
-    this.y += stepY + randomGaussian(0, 5);
+  getRandomStepSize() {
+    const r1 = random(0, 10);
+    const probability = r1 * r1;
+    const r2 = random(0, 10);
+
+    if (r2 < probability) {
+      return r2;
+    }
+
+    return this.getRandomStepSize();
+  }
+
+  step() {
+    const stepSize = this.getRandomStepSize();
+    const stepX = random(-stepSize, stepSize);
+    const stepY = random(-stepSize, stepSize);
+
+    this.x += stepX;
+    this.y += stepY;
   }
 }
 
