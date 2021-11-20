@@ -6,24 +6,28 @@ class Walker {
   constructor() {
     this.x = width/2;
     this.y = height/2;
-    this.noiseOff = 0;
+    this.xOff = 0;
+    this.yOff = 10;
   }
 
   display() {
     stroke(255, 204, 0);
     strokeWeight(2);
     point(this.x, this.y);
+    // NOTE: uncomment the next line to see the same drawing even after page refresh
+    // noiseSeed(5);
   }
 
   step() {
-    const stepSize = map(noise(this.noiseOff), 0, 1, 0, 8);
-    const stepX = random(-stepSize, stepSize);
-    const stepY = random(-stepSize, stepSize);
-
-    this.noiseOff += 0.01;
+    const stepSize = 4;
+    const stepX = map(noise(this.xOff), 0, 1, -stepSize, stepSize);
+    const stepY = map(noise(this.yOff), 0, 1, -stepSize, stepSize);
 
     this.x += stepX;
     this.y += stepY;
+
+    this.xOff += 0.1;
+    this.yOff += 0.1;
   }
 }
 
