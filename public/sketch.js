@@ -19,7 +19,7 @@ function draw() {
   yOff = yOff + 0.01;
   for (let x = 0; x < 300; x+=3) {
     for (let y = 0; y < 250; y+=3) {
-      const n = map(noise(x/150 + xOff, y/150), 0, 1, 0, 255);
+      const n = map(noise(x/150 + xOff, y/25), 0, 1, 0, 255);
       fill(color(n, n, n));
       rect(x, y, 3, 3);
     }
