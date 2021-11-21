@@ -1,49 +1,29 @@
 let socket;
 let address = 'http://localhost:3000';
-let w;
-
-class Walker {
-  constructor() {
-    this.x = width/2;
-    this.y = height/2;
-    this.xOff = 0;
-    this.yOff = 10;
-  }
-
-  display() {
-    stroke(255, 204, 0);
-    strokeWeight(2);
-    point(this.x, this.y);
-    // NOTE: uncomment the next line to see the same drawing even after page refresh
-    // noiseSeed(5);
-  }
-
-  step() {
-    const stepSize = 4;
-    const stepX = map(noise(this.xOff), 0, 1, -stepSize, stepSize);
-    const stepY = map(noise(this.yOff), 0, 1, -stepSize, stepSize);
-
-    this.x += stepX;
-    this.y += stepY;
-
-    this.xOff += 0.1;
-    this.yOff += 0.1;
-  }
-}
+let xOff = 0;
+let yOff = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
+  noiseDetail(8, 0.65);
 
-  w = new Walker();
 
   socket = io();
   socket.on('mouse', incomingMouse);
 }
 
 function draw() {
-  w.step();
-  w.display();
+  noStroke();
+  xOff = xOff + 0.01;
+  yOff = yOff + 0.01;
+  for (let x = 0; x < 300; x+=3) {
+    for (let y = 0; y < 250; y+=3) {
+      const n = map(noise(x/150 + xOff, y/150), 0, 1, 0, 255);
+      fill(color(n, n, n));
+      rect(x, y, 3, 3);
+    }
+  }
   translate(width/2, height/2);
 }
 
