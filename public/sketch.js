@@ -1,30 +1,58 @@
 let socket;
 let address = 'http://localhost:3000';
-let xOff = 0;
-let yOff = 0;
+const scl = 20;
+let cols, rows;
+const terrain = [];
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  background(0);
-  noiseDetail(8, 0.65);
+  createCanvas(windowWidth, windowHeight, WEBGL);
 
+  cols = width / scl;
+  rows = height / scl;
+
+  for (let x = 0; x < cols; x++) {
+    terrain[x] = [];
+    for (let y = 0; y < rows; y++) {
+      terrain[x][y] = 0;
+    }
+  }
 
   socket = io();
   socket.on('mouse', incomingMouse);
 }
 
 function draw() {
-  noStroke();
-  xOff = xOff + 0.01;
-  yOff = yOff + 0.01;
-  for (let x = 0; x < 300; x+=3) {
-    for (let y = 0; y < 250; y+=3) {
-      const n = map(noise(x/150 + xOff, y/25), 0, 1, 0, 255);
-      fill(color(n, n, n));
-      rect(x, y, 3, 3);
+  stroke(1);
+
+  rotateX(PI / 3);
+  fill(200, 200, 200, 150);
+
+  let yOff = 0;
+
+  for (let y = 0; y < rows; y++) {
+    let xOff = 0;
+    for (var x = 0; x < cols; x++) {
+      terrain[x][y] = map(noise(xOff, yOff), 0, 1, -100, 100);
+      xOff += 0.2;
     }
+    yOff += 0.2;
   }
-  translate(width/2, height/2);
+
+  background(0);
+  translate(0, 50);
+  rotateX(PI / 3);
+  fill(200, 200, 200, 150);
+  translate(-width / 2, -height / 2);
+
+  for (let y = 0; y < rows; y++) {
+    beginShape(TRIANGLE_STRIP);
+    for (let x = 0; x < cols; x++) {
+      vertex(x * scl, y * scl, terrain[x][y]);
+      vertex(x * scl, (y + 1) * scl, terrain[x][y + 1]);
+    }
+    endShape();
+  }
+  // translate(width/2, height/2);
 }
 
 function incomingMouse(data) {
