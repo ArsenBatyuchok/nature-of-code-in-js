@@ -1,16 +1,17 @@
-let m;
+let m, pressedKey;
 
 class Mover {
   constructor() {
     this.location = createVector(0, 0);
-    this.velocity = createVector(1, 1);
-    this.acceleration = createVector(0.001, 0.01);
+    this.velocity = createVector(1, 0);
+    this.acceleration = 0;
   }
 
   update() {
+    console.log(this.velocity);
     this.velocity.limit(10);
     this.location.add(this.velocity);
-    this.velocity.add(this.acceleration);
+    this.velocity.x = this.velocity.x + this.acceleration;
   }
 
   checkEdges() {
@@ -23,6 +24,18 @@ class Mover {
       this.location[axis] = 0;
     } else if (this.location[axis] < 0) {
       this.location[axis] = maxValue;
+    }
+  }
+
+  checkForKeyPressed() {
+    if (!keyIsPressed) {
+      this.velocity.x = 1;
+    }
+
+    if (keyCode === LEFT_ARROW) {
+      this.velocity.x -= 0.02;
+    } else if (keyCode === RIGHT_ARROW) {
+      this.velocity.x += 0.02;
     }
   }
 
@@ -40,7 +53,9 @@ function setup() {
 }
 
 function draw() {
-  // background(0);
+  translate(0, height/2)
+  background(0);
+  m.checkForKeyPressed();
   m.update();
   m.checkEdges();
   m.display();
@@ -48,4 +63,8 @@ function draw() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+}
+
+function keyPressed() {
+
 }
