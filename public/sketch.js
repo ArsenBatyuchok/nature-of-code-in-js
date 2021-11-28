@@ -8,8 +8,8 @@ class Mover {
   }
 
   update() {
+    this.velocity.limit(10);
     this.location.add(this.velocity);
-    this.velocity = this.limit(this.velocity, 10);
     this.velocity.add(this.acceleration);
   }
 
@@ -24,11 +24,6 @@ class Mover {
     } else if (this.location[axis] < 0) {
       this.location[axis] = maxValue;
     }
-  }
-
-  // this custom method can be easily replaced by calling a `limit` method on a createVector
-  limit(vector, max) {
-    return createVector(Math.min(vector.x, max), Math.min(vector.y, max));
   }
 
   display() {
