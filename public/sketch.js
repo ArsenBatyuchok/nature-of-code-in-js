@@ -17,8 +17,14 @@ function draw() {
 
       mouse.sub(center)
       mouse.normalize()
-      mouse.mult(30)
-      drawArrow(position, mouse, color(map(mouseY, 0, height, 0, 255), map(mouseX, 0, height, 0, 255), 200))
+      mouse.mult(35)
+      drawArrow(
+          position,
+          mouse,
+          color(
+              map(mouseY, 0, height, 0, 255),
+              map(mouseX, 0, height, 255, 0),
+              map(x, 0, width, 0, 255)))
     }
   }
 }
