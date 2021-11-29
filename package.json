@@ -1,7 +1,7 @@
 {
-  "name": "p5js-boilerplate",
+  "name": "nature-of-code",
   "version": "0.0.1",
-  "description": "A very simple boilerplate to start coding p5.js locally with auto-reload.",
+  "description": "JS version for Shiffman's book 'Nature of Code'",
   "keywords": [
     "p5js",
     "boilerplate",
@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
-  "author": "gokce",
+  "author": "arsenbatyuchok",
   "license": "ISC",
   "repository": {
     "type": "git",
