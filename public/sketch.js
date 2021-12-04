@@ -15,16 +15,17 @@ function draw() {
       const position = createVector(x, y);
       const center = createVector(x, y);
 
-      mouse.sub(center)
-      mouse.normalize()
-      mouse.mult(35)
+      mouse.sub(center);
+      mouse.normalize();
+      mouse.mult(35);
+
       drawArrow(
           position,
           mouse,
           color(
               map(mouseY, 0, height, 0, 255),
               map(mouseX, 0, height, 255, 0),
-              map(x, 0, width, 0, 255)))
+              map(x, 0, width, 0, 255)));
     }
   }
 }
