@@ -1,4 +1,5 @@
-let m, pressedKey;
+let m;
+let time = 0;
 
 class Mover {
   constructor() {
@@ -7,11 +8,11 @@ class Mover {
     this.acceleration = 0;
   }
 
-  update() {
-    console.log(this.velocity);
+  update(time) {
     this.velocity.limit(10);
     this.location.add(this.velocity);
-    this.velocity.x = this.velocity.x + this.acceleration;
+    this.acceleration = map(noise(time), 0, 1, -1, 4);
+    this.velocity.x = 1 + this.acceleration;
   }
 
   checkEdges() {
@@ -24,18 +25,6 @@ class Mover {
       this.location[axis] = 0;
     } else if (this.location[axis] < 0) {
       this.location[axis] = maxValue;
-    }
-  }
-
-  checkForKeyPressed() {
-    if (!keyIsPressed) {
-      this.velocity.x = 1;
-    }
-
-    if (keyCode === LEFT_ARROW) {
-      this.velocity.x = Math.max(0, this.velocity.x - 0.02);
-    } else if (keyCode === RIGHT_ARROW) {
-      this.velocity.x += 0.02;
     }
   }
 
@@ -53,10 +42,10 @@ function setup() {
 }
 
 function draw() {
+  time = time + 0.1;
   translate(0, height/2)
   background(0);
-  m.checkForKeyPressed();
-  m.update();
+  m.update(time);
   m.checkEdges();
   m.display();
 }
