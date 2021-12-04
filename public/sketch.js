@@ -33,7 +33,7 @@ class Mover {
     }
 
     if (keyCode === LEFT_ARROW) {
-      this.velocity.x -= 0.02;
+      this.velocity.x = Math.max(0, this.velocity.x - 0.02);
     } else if (keyCode === RIGHT_ARROW) {
       this.velocity.x += 0.02;
     }
