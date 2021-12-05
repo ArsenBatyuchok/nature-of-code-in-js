@@ -5,10 +5,12 @@ class Mover {
   constructor() {
     this.location = createVector(0, 0);
     this.velocity = createVector(1, 0);
+    this.mouse = createVector(mouseX, mouseY);
     this.acceleration = 0;
   }
 
   update(time) {
+    this.mouse.set(mouseX, mouseY);
     this.velocity.limit(10);
     this.location.add(this.velocity);
     this.acceleration = map(noise(time), 0, 1, -1, 4);
