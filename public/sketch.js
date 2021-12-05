@@ -1,18 +1,17 @@
 let m;
-let time = 0;
 
 class Mover {
   constructor() {
     this.location = createVector(0, 0);
-    this.velocity = createVector(1, 0);
-    this.acceleration = 0;
+    this.velocity = createVector(1, 1);
+    this.acceleration = createVector(0, 0);
   }
 
-  update(time) {
+  update() {
     this.velocity.limit(10);
     this.location.add(this.velocity);
-    this.acceleration = map(noise(time), 0, 1, -1, 4);
-    this.velocity.x = 1 + this.acceleration;
+    this.acceleration.add(random(-3, 3), random(-3, 3));
+    this.velocity.add(this.acceleration);
   }
 
   checkEdges() {
@@ -42,10 +41,9 @@ function setup() {
 }
 
 function draw() {
-  time = time + 0.1;
-  translate(0, height/2)
+  translate(0, 0);
   background(0);
-  m.update(time);
+  m.update();
   m.checkEdges();
   m.display();
 }
