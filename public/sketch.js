@@ -6,12 +6,18 @@ class Mover {
     this.velocity = createVector(1, 1);
     this.mouse = createVector(mouseX, mouseY);
     this.acceleration = createVector(0, 0);
+    this.direction = createVector(0, 0);
+  }
+
+  setPropertiesOnUpdate() {
+    this.velocity.limit(10);
+    this.mouse.set(mouseX, mouseY);
+    this.direction = p5.Vector.sub(this.mouse, this.location);
   }
 
   update() {
-    this.mouse.set(mouseX, mouseY);
-    this.velocity.limit(10);
-    this.location.add(this.velocity);
+    this.setPropertiesOnUpdate();
+    this.location.add(this.direction);
     this.acceleration.add(random(-3, 3), random(-3, 3));
     this.velocity.add(this.acceleration);
   }
