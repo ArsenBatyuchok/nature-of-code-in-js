@@ -9,17 +9,20 @@ class Mover {
     this.direction = createVector(0, 0);
   }
 
-  setPropertiesOnUpdate() {
-    this.velocity.limit(10);
+  setDirectionProperties() {
     this.mouse.set(mouseX, mouseY);
     this.direction = p5.Vector.sub(this.mouse, this.location);
+    this.direction.normalize();
   }
 
   update() {
-    this.setPropertiesOnUpdate();
-    this.location.add(this.direction);
-    this.acceleration.add(random(-3, 3), random(-3, 3));
+    this.velocity.limit(10);
+    this.setDirectionProperties();
+    const distance = p5.Vector.sub(this.mouse, this.location).mag();
+    this.direction.mult(map(distance, Math.max(width, height), 0, 0, 1));
+    this.acceleration = this.direction;
     this.velocity.add(this.acceleration);
+    this.location.add(this.velocity);
   }
 
   checkEdges() {
@@ -49,7 +52,6 @@ function setup() {
 }
 
 function draw() {
-  translate(0, 0);
   background(0);
   m.update();
   m.checkEdges();
