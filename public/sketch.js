@@ -1,33 +1,42 @@
-let p, s;
+let p, s = [];
 
 class Planet {
   constructor(size) {
     this.size = size;
+    this.r = random(255);
+    this.g = random(100, 200);
+    this.b = random(100, 200);
+    this.r1 = random(255);
+    this.g1 = random(100, 200);
+    this.b1 = random(100, 200);
   }
 
   update() {
     push();
-      specularColor(255, 0, 0);
-      pointLight(255, 0, 0, 0, -this.size * 3, this.size * 3);
-      specularColor(0, 255, 0);
-      pointLight(0, 255, 0, 0, this.size * 3, this.size * 3);
+      pointLight(this.r, this.g, this.b, 0, -this.size * 3, this.size * 3);
+      pointLight(this.r1, this.g1, this.b1, 0, this.size * 3, this.size * 3);
       ambientMaterial(255);
-      rotateY(frameCount * 0.01);
       sphere(this.size);
     pop();
   }
 }
 
 class Sputnik {
-  constructor(size, orbit) {
-    this.size = size;
-    this.orbit = orbit;
+  constructor(planetSize) {
+    this.size = random(8, 15);
+    this.orbitDistance = random(50, 150);
+    this.orbit = planetSize + this.orbitDistance;
+    this.speed = map(this.orbitDistance, 50, 150, 150, 50) * 0.0002;
+    this.rotate = random(5, 10);
+    this.additionalFC = random(2, 10);
   }
 
   update() {
     push();
-      specularMaterial(255);
-      translate(sin(frameCount * 0.01) * 200, cos(frameCount * 0.01) * 200, sin(frameCount * 0.01) * 150);
+      pointLight(255, 0, 0, 0, -this.size * 3, this.size * 3);
+      pointLight(0, 255, 0, 0, this.size * 3, this.size * 3);
+      rotateX(this.rotate);
+      translate(sin((this.additionalFC + frameCount) * this.speed) * this.orbit, cos((this.additionalFC + frameCount) * this.speed) * this.orbit, 0);
       sphere(this.size);
     pop();
   }
@@ -37,16 +46,19 @@ function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
   background(0);
   noStroke();
-  p = new Planet(150);
-  s = new Sputnik(10, 150);
+  const planetSize = 150;
+  p = new Planet(planetSize);
+  s = Array.from({ length: Math.floor(random(0, 4)) }, (_, i) => new Sputnik(planetSize));
 }
 
 function draw() {
+  background(0);
   orbitControl();
-  background(`rgba(0, 0, 0, 0.5)`);
   ambientLight(50);
   p.update();
-  s.update();
+  s.forEach(sp => {
+    sp.update();
+  });
 }
 
 function windowResized() {
